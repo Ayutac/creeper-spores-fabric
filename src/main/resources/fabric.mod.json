@@ -15,7 +15,7 @@
   },
 
   "license": "LGPL 3.0",
-  "icon": "assets/creeper-spores/textures/logo.png",
+  "icon": "assets/creeperspores/textures/logo.png",
 
   "environment": "*",
   "entrypoints": {
