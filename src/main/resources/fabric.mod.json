@@ -1,38 +1,39 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "creeper-spores",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Creeper Spores",
+  "description": "Makes creepers slightly more interesting and slightly less infuriating",
   "authors": [
-    "Me!"
+    "Pyrofab",
+    "Ayutac"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/Ayutac/creeper-spores-fabric",
+    "sources": "https://github.com/Ayutac/creeper-spores-fabric"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "LGPL 3.0",
+  "icon": "assets/creeper-spores/textures/logo.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "org.abos.fabricmc.creeperspores.CreeperSpores"
+    ],
+    "client": [
+      "org.abos.fabricmc.creeperspores.client.CreeperSporesClient"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "creeper-spores.mixins.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.14.10",
     "fabric-api": "*",
-    "minecraft": "~1.19",
+    "minecraft": ">=1.19.2",
     "java": ">=17"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.abos.fabricmc.creeperspores.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BoneMealItemMixin",
+    "CatEntitiesMixin",
+    "CreeperEntityMixin",
+    "ExplosionMixin",
+    "GameRulesMixin",
+    "LivingEntityMixin",
+    "SpawnHelperMixin"
+  ],
+  "client": [
+    "client.AbstractInventoryScreenMixin",
+    "client.EntityRendererRegistryMixin",
+    "client.StatusEffectSpriteManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
