@@ -33,7 +33,7 @@ public abstract class AbstractInventoryScreenMixin {
         renderedEffects = null;
     }
 
-    @ModifyVariable(method = "getStatusEffectDescription", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/text/Text;copy()Lnet/minecraft/text/MutableText;"), index = 2)
+    /*@ModifyVariable(method = "getStatusEffectDescription", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/text/Text;copy()Lnet/minecraft/text/MutableText;"), index = 2)
     private MutableText creeperspores$updateRenderedEffectName(MutableText drawnString) {
         if (renderedEffects != null) {
             StatusEffect renderedEffect = renderedEffects.get(renderedEffectsIndex++).getEffectType();
@@ -42,5 +42,5 @@ public abstract class AbstractInventoryScreenMixin {
             }
         }
         return drawnString;
-    }
+    }*/
 }

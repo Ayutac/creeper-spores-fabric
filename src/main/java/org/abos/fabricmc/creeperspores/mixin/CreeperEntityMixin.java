@@ -70,14 +70,14 @@ public abstract class CreeperEntityMixin extends HostileEntity implements SporeS
         }
     }
 
-    @ModifyVariable(method = "explode", ordinal = 0, at = @At(value = "STORE", ordinal = 0))
+    /*@ModifyVariable(method = "explode", ordinal = 0, at = @At(value = "STORE", ordinal = 0))
     private Explosion.DestructionType griefLessExplosion(Explosion.DestructionType explosionType) {
         CreeperGrief grief = world.getGameRules().get(CreeperSpores.CREEPER_GRIEF).get();
         if (!grief.shouldGrief(this.dataTracker.get(CHARGED))) {
             return Explosion.DestructionType.NONE;
         }
         return explosionType;
-    }
+    }*/
 
     @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
     private void writeCustomDataToTag(NbtCompound tag, CallbackInfo ci) {
