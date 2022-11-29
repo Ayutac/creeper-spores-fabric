@@ -29,7 +29,7 @@
   "mixins": [
     "creeper-spores.mixins.json"
   ],
-
+  "accessWidener": "creeper-spores.accesswidener",
   "depends": {
     "fabricloader": ">=0.14.10",
     "fabric-api": "*",
