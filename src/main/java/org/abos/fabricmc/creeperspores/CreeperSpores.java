@@ -2,6 +2,10 @@ package org.abos.fabricmc.creeperspores;
 
 import com.google.common.base.Suppliers;
 import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import org.abos.fabricmc.creeperspores.common.CreeperSporeEffect;
 import org.abos.fabricmc.creeperspores.common.CreeperlingEntity;
 import net.fabricmc.api.ModInitializer;
@@ -20,9 +24,7 @@ import net.minecraft.entity.attribute.DefaultAttributeRegistry;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
@@ -35,14 +37,14 @@ import java.util.function.Supplier;
 public class CreeperSpores implements ModInitializer {
 
     /** Identifiers corresponding to entity types that should be {@linkplain #registerCreeperLike(Identifier, EntityType)
-    registered as creeper likes} if and when the entity type gets registered to {@link Registry#ENTITY_TYPE}.*/
+    registered as creeper likes} if and when the entity type gets registered to {@link Registries#ENTITY_TYPE}.*/
     public static final Set<Identifier> CREEPER_LIKES = new HashSet<>(Arrays.asList(
             new Identifier("minecraft", "creeper"),
             new Identifier("mobz", "creep_entity"),
             new Identifier("mobz", "crip_entity")
     ));
 
-    public static final TagKey<Item> FERTILIZERS = TagKey.of(Registry.ITEM_KEY, new Identifier("c", "fertilizers"));
+    public static final TagKey<Item> FERTILIZERS = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "fertilizers"));
 
     public static final Identifier CREEPERLING_FERTILIZATION_PACKET = id("creeperling-fertilization");
     public static final String GIVE_SPORES_TAG = "cspores:giveSpores";
@@ -68,7 +70,7 @@ public class CreeperSpores implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        visitRegistry(Registry.ENTITY_TYPE, (id, type) -> {
+        visitRegistry(Registries.ENTITY_TYPE, (id, type) -> {
             if (CREEPER_LIKES.contains(id)) {
                 // can't actually check that the entity type is living, so just hope nothing goes wrong
                 @SuppressWarnings("unchecked") EntityType<? extends LivingEntity> livingType = (EntityType<? extends LivingEntity>) type;
@@ -85,7 +87,7 @@ public class CreeperSpores implements ModInitializer {
     public static void registerCreeperLike(Identifier id) {
         // can't actually check that the entity type is living, so just hope nothing goes wrong
         // the cast to Optional<?> is not optional, according to javac
-        @SuppressWarnings({"unchecked", "RedundantCast"}) Optional<EntityType<? extends LivingEntity>> creeperType = (Optional<EntityType<? extends LivingEntity>>) (Optional<?>) Registry.ENTITY_TYPE.getOrEmpty(id);
+        @SuppressWarnings({"unchecked", "RedundantCast"}) Optional<EntityType<? extends LivingEntity>> creeperType = (Optional<EntityType<? extends LivingEntity>>) (Optional<?>) Registries.ENTITY_TYPE.getOrEmpty(id);
         if (creeperType.isPresent()) {
             registerCreeperLike(id, creeperType.get());
         } else {
@@ -97,7 +99,7 @@ public class CreeperSpores implements ModInitializer {
     public static void registerCreeperLike(Identifier id, EntityType<? extends LivingEntity> type) {
         String prefix = id.getNamespace().equals("minecraft") ? "" : (id.toString().replace(':', '_') + "_");
         EntityType<CreeperlingEntity> creeperlingType = Registry.register(
-                Registry.ENTITY_TYPE,
+                Registries.ENTITY_TYPE,
                 CreeperSpores.id(prefix + "creeperling"),
                 createCreeperlingType(type)
         );
@@ -107,7 +109,7 @@ public class CreeperSpores implements ModInitializer {
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, defaultAttributes.getBaseValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) * 0.8)
         );
         CreeperSporeEffect sporesEffect = Registry.register(
-                Registry.STATUS_EFFECT,
+                Registries.STATUS_EFFECT,
                 CreeperSpores.id(prefix + "creeper_spore"),
                 createCreeperSporesEffect(type)
         );

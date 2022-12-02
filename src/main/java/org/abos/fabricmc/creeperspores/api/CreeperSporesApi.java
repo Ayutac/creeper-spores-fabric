@@ -1,11 +1,12 @@
 package org.abos.fabricmc.creeperspores.api;
 
 import com.google.common.base.Preconditions;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import org.abos.fabricmc.creeperspores.CreeperSpores;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.explosion.Explosion;
 
 public final class CreeperSporesApi {
@@ -29,7 +30,7 @@ public final class CreeperSporesApi {
     }
 
     /**
-     * Register a previously {@linkplain Registry#register(Registry, Identifier, Object) registered} {@link EntityType}
+     * Register a previously {@linkplain net.minecraft.registry.Registry#register(Registry, Identifier, Object) registered} {@link EntityType}
      * as a creeper equivalent, able to spread spores and spawn creeperlings.
      *
      * <p> When an explosion's {@link Explosion#getCausingEntity() cause} is of a registered creeper-like type,
@@ -45,7 +46,7 @@ public final class CreeperSporesApi {
      */
     public static void registerCreeperLike(EntityType<? extends LivingEntity> type) {
         Preconditions.checkNotNull(type);
-        Preconditions.checkState(!Registry.ENTITY_TYPE.getId(type).equals(Registry.ENTITY_TYPE.getDefaultId()), "Entity types need to be registered first");
-        CreeperSpores.registerCreeperLike(Registry.ENTITY_TYPE.getId(type), type);
+        Preconditions.checkState(!Registries.ENTITY_TYPE.getId(type).equals(Registries.ENTITY_TYPE.getDefaultId()), "Entity types need to be registered first");
+        CreeperSpores.registerCreeperLike(Registries.ENTITY_TYPE.getId(type), type);
     }
 }

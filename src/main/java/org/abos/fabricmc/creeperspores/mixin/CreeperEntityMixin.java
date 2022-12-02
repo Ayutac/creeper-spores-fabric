@@ -26,7 +26,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -36,6 +35,12 @@ public abstract class CreeperEntityMixin extends HostileEntity implements SporeS
     @Unique private TriState giveSpores = TriState.DEFAULT;
 
     @Shadow @Final private static TrackedData<Boolean> CHARGED;
+
+    @Shadow private int explosionRadius;
+
+    @Shadow public abstract boolean shouldRenderOverlay();
+
+    @Shadow protected abstract void spawnEffectsCloud();
 
     protected CreeperEntityMixin(EntityType<? extends HostileEntity> type, World world) {
         super(type, world);
@@ -70,13 +75,19 @@ public abstract class CreeperEntityMixin extends HostileEntity implements SporeS
         }
     }
 
-    @ModifyVariable(method = "explode", ordinal = 0, at = @At(value = "STORE", ordinal = 0))
-    private Explosion.DestructionType griefLessExplosion(Explosion.DestructionType explosionType) {
-        CreeperGrief grief = world.getGameRules().get(CreeperSpores.CREEPER_GRIEF).get();
-        if (!grief.shouldGrief(this.dataTracker.get(CHARGED))) {
-            return Explosion.DestructionType.NONE;
+    @Inject(method = "explode()V", at = @At("HEAD"), cancellable = true)
+    private void explode(CallbackInfo info) {
+        if (!world.isClient) {
+            CreeperGrief grief = world.getGameRules().get(CreeperSpores.CREEPER_GRIEF).get();
+            if (!grief.shouldGrief(this.dataTracker.get(CHARGED))) {
+                float f = this.shouldRenderOverlay() ? 2.0F : 1.0F;
+                this.dead = true;
+                this.world.createExplosion(this, this.getX(), this.getY(), this.getZ(), (float)this.explosionRadius * f, World.ExplosionSourceType.NONE);
+                this.discard();
+                this.spawnEffectsCloud();
+                info.cancel();
+            }
         }
-        return explosionType;
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))

@@ -2,6 +2,7 @@ package org.abos.fabricmc.creeperspores.common;
 
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.client.render.entity.feature.SkinOverlayOwner;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.random.Random;
 import org.abos.fabricmc.creeperspores.CreeperEntry;
 import org.abos.fabricmc.creeperspores.CreeperSpores;
@@ -40,7 +41,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
